@@ -1,4 +1,5 @@
 import streamlit as st
+from io import BytesIO
 
 def process_text(text):
     lines = []
@@ -23,9 +24,21 @@ def main():
     if uploaded_file is not None:
         text = uploaded_file.getvalue().decode("utf-8")
 
-        if st.button("텍스트 수정"):
+        if st.button("Process Text"):
             processed_text = process_text(text)
-            st.text_area("Processed Text", processed_text, height=300)
+            
+            # 처리된 텍스트를 파일로 저장
+            output_file = BytesIO()
+            output_file.write(processed_text.encode("utf-8"))
+            output_file.seek(0)
+
+            # 파일 다운로드 링크 생성
+            st.download_button(
+                label="Download Processed Text",
+                data=output_file,
+                file_name="processed_text.txt",
+                mime="text/plain",
+            )
 
 if __name__ == "__main__":
     main()
