@@ -24,7 +24,7 @@ def main():
     if uploaded_file is not None:
         text = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
 
-        if st.button("Process Text"):
+        if st.button("텍스트 수정"):
             processed_text = process_text(text)
             st.text_area("Processed Text", processed_text, height=300)
 
