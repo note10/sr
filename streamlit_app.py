@@ -28,9 +28,8 @@ def main():
             processed_text = process_text(text)
             
             # 처리된 텍스트를 파일로 저장
-            output_file = BytesIO()
-            output_file.write(processed_text.encode("utf-8"))
-            output_file.seek(0)
+            output_file = BytesIO(processed_text.encode("utf-8"))
+            output_file.seek(0)  # 포인터를 파일 시작 부분으로 이동
 
             # 파일 다운로드 링크 생성
             st.download_button(
