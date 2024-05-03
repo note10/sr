@@ -1,38 +1,28 @@
 import streamlit as st
 
-def process_text(text):
-    lines = []
-    for line in text.split(". "):
-        if line.strip().startswith("<"):
-            number = line.strip()[1:].split(". ")[0]
-            sentence = ". ".join(line.strip()[1:].split(". ")[1:]) + "."
-            lines.append((int(number), sentence))
-
-    lines.sort()
-    processed_text = ""
-    for number, sentence in lines:
-        processed_text += f"{number}. {sentence}\n"
-
-    return processed_text
+def sort_text(text):
+    lines = text.strip().split('\n')
+    sorted_lines = sorted(lines, key=lambda x: int(x.split('.')[0]))
+    sorted_text = '\n'.join(sorted_lines)
+    return sorted_text
 
 def main():
-    st.title("Text Processor")
-
-    uploaded_file = st.file_uploader("Upload a text file", type=["txt"])
-
+    st.title("텍스트 정렬 애플리케이션")
+    
+    # 파일 업로드
+    uploaded_file = st.file_uploader("텍스트 파일 업로드", type=['txt'])
+    
     if uploaded_file is not None:
-        text = uploaded_file.getvalue().decode("utf-8")
-
-        if st.button("Process Text"):
-            processed_text = process_text(text)
-
-            # 파일 다운로드 링크 생성
-            st.download_button(
-                label="Download Processed Text",
-                data=processed_text,
-                file_name="processed_text.txt",
-                mime="text/plain",
-            )
+        content = uploaded_file.getvalue().decode("utf-8")
+        
+        # 파일 내용 출력
+        st.subheader("원본 텍스트:")
+        st.text_area("입력", content, height=300)
+        
+        # 정렬된 결과 출력
+        sorted_content = sort_text(content)
+        st.subheader("정렬된 텍스트:")
+        st.text_area("결과", sorted_content, height=300)
 
 if __name__ == "__main__":
     main()
