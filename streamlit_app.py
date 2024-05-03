@@ -1,9 +1,9 @@
-import re
 import streamlit as st
+import re
 
 def remove_newlines(text):
-    # <br> 또는 </br> 태그를 공백으로 대체하여 모든 줄바꿈 제거
-    cleaned_text = re.sub(r'<\s*br\s*/?\s*>', ' ', text)
+    # 모든 줄바꿈 제거
+    cleaned_text = re.sub(r'\n', ' ', text)
     return cleaned_text
 
 def main():
