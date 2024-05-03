@@ -3,7 +3,6 @@ import streamlit as st
 
 def sort_text(text):
     try:
-        # 정규표현식을 사용하여 각 줄에서 숫자로 된 부분을 추출하고, 이를 기준으로 정렬
         lines = text.strip().split('\n')
         sorted_lines = sorted(lines, key=lambda x: int(re.search(r'\d+', x).group()) if re.search(r'\d+', x) else float('inf'))
         sorted_text = '\n'.join(sorted_lines)
@@ -27,6 +26,13 @@ def main():
         # 정렬된 결과 출력
         sorted_content = sort_text(content)
         if sorted_content:
+            # 숫자로 시작하는 줄의 줄바꿈 제거
+            lines = sorted_content.split('\n')
+            for i, line in enumerate(lines):
+                if re.match(r'^\d+\.', line):
+                    lines[i] = line.rstrip()
+            sorted_content = '\n'.join(lines)
+            
             st.subheader("정렬된 텍스트:")
             st.text_area("결과", sorted_content, height=300)
 
