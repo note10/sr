@@ -1,5 +1,4 @@
 import streamlit as st
-from io import StringIO
 
 def process_text(text):
     lines = []
@@ -10,11 +9,11 @@ def process_text(text):
             lines.append((int(number), sentence))
 
     lines.sort()
-    processed_text = StringIO()
+    processed_text = ""
     for number, sentence in lines:
-        processed_text.write(f"{number}. {sentence}\n")
+        processed_text += f"{number}. {sentence}\n"
 
-    return processed_text.getvalue()
+    return processed_text
 
 def main():
     st.title("Text Processor")
@@ -22,7 +21,7 @@ def main():
     uploaded_file = st.file_uploader("Upload a text file", type=["txt"])
 
     if uploaded_file is not None:
-        text = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
+        text = uploaded_file.getvalue().decode("utf-8")
 
         if st.button("텍스트 수정"):
             processed_text = process_text(text)
