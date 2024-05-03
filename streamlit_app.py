@@ -5,7 +5,7 @@ def sort_text(text):
     try:
         # 정규표현식을 사용하여 각 줄에서 숫자로 된 부분을 추출하고, 이를 기준으로 정렬
         lines = text.strip().split('\n')
-        sorted_lines = sorted(lines, key=lambda x: int(re.search(r'\d+', x).group()))
+        sorted_lines = sorted(lines, key=lambda x: int(re.search(r'\d+', x).group()) if re.search(r'\d+', x) else float('inf'))
         sorted_text = '\n'.join(sorted_lines)
         return sorted_text
     except Exception as e:
