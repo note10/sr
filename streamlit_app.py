@@ -1,10 +1,13 @@
 import streamlit as st
 
 def sort_text(text):
-    lines = text.strip().split('\n')
-    sorted_lines = sorted(lines, key=lambda x: int(x.split('.')[0]))
-    sorted_text = '\n'.join(sorted_lines)
-    return sorted_text
+    try:
+        lines = text.strip().split('\n')
+        sorted_lines = sorted(lines, key=lambda x: int(x.split('.')[0]))
+        sorted_text = '\n'.join(sorted_lines)
+        return sorted_text
+    except Exception as e:
+        st.error(f"오류 발생: {e}")
 
 def main():
     st.title("텍스트 정렬 애플리케이션")
@@ -21,8 +24,9 @@ def main():
         
         # 정렬된 결과 출력
         sorted_content = sort_text(content)
-        st.subheader("정렬된 텍스트:")
-        st.text_area("결과", sorted_content, height=300)
+        if sorted_content:
+            st.subheader("정렬된 텍스트:")
+            st.text_area("결과", sorted_content, height=300)
 
 if __name__ == "__main__":
     main()
